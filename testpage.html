@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Textbox Calculator Test Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin: 8px 0;
+    }
+
+    input[type="text"], textarea {
+      width: 300px;
+      padding: 6px;
+      font-size: 16px;
+    }
+
+    input[type="number"] {
+      width: 120px;
+      padding: 6px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Textbox Calculator Test Page</h1>
+
+  <div class="section" id="static-tests">
+    <h2>Static Inputs (Excel-style: start with =)</h2>
+    <label>Empty Expression Input:
+      <input type="text" id="input1" placeholder="Type =2+3">
+    </label>
+
+    <label>Pre-filled Expression (=2+3):
+      <input type="text" id="input2" value="=2+3">
+    </label>
+
+    <label>Textarea Expression (=5*10):
+      <textarea id="textarea1">=5 * 10</textarea>
+    </label>
+
+    <label>Variable Expression (e.g. =test*2):
+      <input type="text" id="input3" placeholder="=test * 2">
+    </label>
+
+    <label>Regular text (should not be processed):
+      <input type="text" id="input4" value="This is regular text with 2+3 in it">
+    </label>
+
+    <label>Non-text Input (number):
+      <input type="number" id="input-number" value="123">
+    </label>
+  </div>
+
+  <div class="section" id="dynamic-tests">
+    <h2>Dynamic Inputs</h2>
+    <button id="add-input-btn">Add Dynamic Input</button>
+    <div id="dynamic-container"></div>
+  </div>
+
+  <div class="section" id="contenteditable-tests">
+    <h2>Contenteditable Test (Should not be processed)</h2>
+    <div contenteditable="true" id="editable" style="border:1px solid #ccc; padding: 8px; width: 300px;">=10+20</div>
+  </div>
+
+
+
+  <script>
+    document.getElementById('add-input-btn').addEventListener('click', () => {
+      const container = document.getElementById('dynamic-container');
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.placeholder = 'Try =3*4 (dynamically added)';
+      input.style.margin = '6px 0';
+      input.style.width = '300px';
+      input.style.padding = '6px';
+      container.appendChild(input);
+    });
+  </script>
+</body>
+
+</html>
