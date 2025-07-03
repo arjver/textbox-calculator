@@ -7,3 +7,9 @@ A browser extension that turns any text input into a spreadsheet-like calculator
 - do a calculation in a group chat and send the result
 - store frequently used values as variables (like currency exchange rates, etc.)
 - update multiple calculations at once by changing a variable value in the popup (potentially useful while testing or debugging something, etc.)
+
+### Installation
+- clone this repository
+- npm install
+- npm run build
+- load the `dist` folder as an unpacked extension in your browser
