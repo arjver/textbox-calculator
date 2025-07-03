@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Textbox Calculator Demo</title>
+    <link href="https://api.fontshare.com/v2/css?f[]=recia@1,2&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Recia', serif;
+            color: darkslateblue;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            gap: 32px;
+            max-width: 1200px;
+            margin: 36px auto 32px auto;
+            padding: 0 20px;
+        }
+
+        main {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            padding: 36px 36px 28px 36px;
+        }
+
+        .extension-popup {
+            width: 320px;
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            height: fit-content;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e6ed;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: darkslategray;
+            margin-top: 0;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+
+        .instructions {
+            font-size: 1.07rem;
+            color: slategray;
+            background: lavender;
+            border-left: 4px solid cornflowerblue;
+            padding: 15px 18px;
+            margin-bottom: 32px;
+            border-radius: 6px;
+        }
+
+        .section {
+            margin-bottom: 32px;
+        }
+
+        .extension-popup h3 {
+            color: darkslategray;
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .extension-popup h4 {
+            margin: 20px 0 12px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: mediumslateblue;
+            letter-spacing: 0.5px;
+        }
+
+        .extension-popup #varscontainer {
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 4px;
+            margin-bottom: 16px;
+        }
+
+        .extension-popup .varitem {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+
+        .extension-popup .varname, .extension-popup .varvalue {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1.5px solid lightsteelblue;
+            border-radius: 6px;
+            font-family: 'Recia', serif;
+            font-size: 14px;
+            transition: border-color 0.18s;
+            background: aliceblue;
+            color: darkslateblue;
+        }
+
+        .extension-popup .varname:focus, .extension-popup .varvalue:focus {
+            outline: none;
+            border-color: cornflowerblue;
+            background: white;
+        }
+
+        .extension-popup .delvar {
+            background-color: crimson;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Recia', serif;
+            font-size: 13px;
+            font-weight: 500;
+            transition: background 0.15s;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .extension-popup .delvar:hover {
+            background-color: darkred;
+        }
+
+        .extension-popup #addvar {
+            background-color: mediumslateblue;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 8px;
+            font-family: 'Recia', serif;
+            font-size: 15px;
+            font-weight: 500;
+            width: 100%;
+            transition: background 0.15s;
+        }
+
+        .extension-popup #addvar:hover {
+            background-color: slateblue;
+        }
+
+        .extension-popup .info-section {
+            margin-top: 20px;
+            padding: 15px 18px;
+            border-radius: 6px;
+            background: lavender;
+            border-left: 4px solid cornflowerblue;
+        }
+
+        .extension-popup .info-section p {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            color: slategray;
+            line-height: 1.5;
+        }
+
+        .extension-popup .info-section code {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 13px;
+            color: indigo;
+            background: lightsteelblue;
+            border: 1px solid steelblue;
+        }
+
+        .extension-popup .intro-text {
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: slategray;
+            font-style: italic;
+        }
+
+        h3 {
+            margin-top: 0;
+            color: mediumslateblue;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .fngroup {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 14px;
+        }
+
+        .fngroup label {
+            min-width: 130px;
+            font-weight: 500;
+            color: darkslategray;
+            font-size: 1rem;
+        }
+
+        .fngroup input[type="text"] {
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 1.06rem;
+            padding: 5px 13px;
+            border: 1.5px solid lightsteelblue;
+            border-radius: 6px;
+            background: aliceblue;
+            transition: border-color .18s;
+            width: 220px;
+            outline: none;
+        }
+
+        .fngroup input[type="text"]:focus {
+            border-color: cornflowerblue;
+            background: white;
+        }
+
+        .result {
+            font-size: 1.08rem;
+            background: lavender;
+            border-radius: 5px;
+            padding: 2px 11px;
+            color: indigo;
+            margin-left: 10px;
+            min-width: 80px;
+            display: inline-block;
+            border: 1px solid lightsteelblue;
+        }
+
+        .result::before {
+            content: "→ ";
+            color: cornflowerblue;
+            font-weight: 700;
+        }
+
+        .fnlist {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .fnitem {
+            font-size: 0.98rem;
+            padding: 3px 11px;
+            border-radius: 4px;
+            background: lightsteelblue;
+            color: indigo;
+            border: 1.1px solid steelblue;
+            margin-bottom: 3px;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            letter-spacing: 0.1px;
+            transition: background 0.12s, box-shadow 0.12s;
+        }
+
+        .fnitem.math {
+            background: rgb(200, 255, 200);
+            color: darkgreen;
+            border-color: green;
+        }
+
+        .fnitem.trig {
+            background: rgb(255, 243, 221);
+            color: darkorange;
+            border-color: orange;
+        }
+
+        .fnitem.stat {
+            background: lightcyan;
+            color: darkblue;
+            border-color: blue;
+        }
+
+        .fnitem.logic {
+            background: rgb(255, 211, 255);
+            color: purple;
+            border-color: mediumorchid;
+        }
+
+        .fnitem.financial {
+            background: rgb(245, 219, 172);
+            color: rgb(137, 65, 14);
+            border-color: rgb(223, 183, 131);
+        }
+
+        /* TODO check this */
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+                max-width: 680px;
+            }
+
+            .extension-popup {
+                width: 100%;
+                order: -1;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px 6px;
+            }
+
+            main {
+                padding: 15px 6px 10px 6px;
+            }
+
+            .extension-popup {
+                padding: 15px;
+            }
+
+            .fngroup {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+
+            .fngroup input[type="text"] {
+                width: 98%;
+            }
+
+            .result {
+                margin-left: 0;
+                margin-top: 3px;
+            }
+        }
+
+        ::-webkit-input-placeholder {
+            color: lightslategray;
+        }
+
+        ::-moz-placeholder {
+            color: lightslategray;
+        }
+
+        :-ms-input-placeholder {
+            color: lightslategray;
+        }
+
+        ::placeholder {
+            color: lightslategray;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <aside class="extension-popup">
+            <h3>Textbox Calculator</h3>
+            <p class="intro-text">(This is what the extension looks like! Try it out without installing anything.)</p>
+            <h4>Variables</h4>
+            <div id="varscontainer"></div>
+            <button id="addvar">Add Variable</button>
+
+            <div class="info-section">
+                <p>Type math expressions starting with <strong>=</strong> in any text input on web pages. Use variables you
+                    define here!</p>
+                <p>Example: <code>=price * tax + 7.99</code></p>
+            </div>
+        </aside>
+
+        <main>
+        <h1>Textbox Calculator Demo</h1>
+        <p>This is a demo page that shows you the features of the extension without needing to actually install it. With the extension, these features are available in any text box on any web page.</p>
+
+        <div class="instructions">
+            Type formulas starting with "=" in any input field. The calculator supports a lot of functions!
+            When you click away from the field, it will evaluate the formula and show the result.
+            Click back on the field to see the original formula.
+        </div>
+
+        <div class="section">
+            <h3>Basic Arithmetic & Power</h3>
+            <div class="fngroup">
+                <label>Addition:</label>
+                <input type="text" placeholder="=5+3" value="=5+3">
+                <span class="result">Result: 8</span>
+            </div>
+            <div class="fngroup">
+                <label>Power:</label>
+                <input type="text" placeholder="=2^10" value="=2^10">
+                <span class="result">Result: 1024</span>
+            </div>
+            <div class="fngroup">
+                <label>Complex:</label>
+                <input type="text" placeholder="=(5+3)*2^3" value="=(5+3)*2^3">
+                <span class="result">Result: 64</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Mathematical Functions</h3>
+            <div class="fnlist">
+                <div class="fnitem math">ABS</div>
+                <div class="fnitem math">SQRT</div>
+                <div class="fnitem math">POWER</div>
+                <div class="fnitem math">EXP</div>
+                <div class="fnitem math">LN</div>
+                <div class="fnitem math">LOG</div>
+                <div class="fnitem math">FACT</div>
+            </div>
+            <div class="fngroup">
+                <label>Square Root:</label>
+                <input type="text" placeholder="=SQRT(144)" value="=SQRT(144)">
+                <span class="result">Result: 12</span>
+            </div>
+            <div class="fngroup">
+                <label>Factorial:</label>
+                <input type="text" placeholder="=FACT(5)" value="=FACT(5)">
+                <span class="result">Result: 120</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Trigonometric Functions</h3>
+            <div class="fnlist">
+                <div class="fnitem trig">SIN</div>
+                <div class="fnitem trig">COS</div>
+                <div class="fnitem trig">TAN</div>
+                <div class="fnitem trig">ASIN</div>
+                <div class="fnitem trig">ACOS</div>
+                <div class="fnitem trig">ATAN</div>
+                <div class="fnitem trig">DEGREES</div>
+                <div class="fnitem trig">RADIANS</div>
+            </div>
+            <div class="fngroup">
+                <label>Sine of π/2:</label>
+                <input type="text" placeholder="=SIN(PI()/2)" value="=SIN(PI()/2)">
+                <span class="result">Result: 1</span>
+            </div>
+            <div class="fngroup">
+                <label>Convert to degrees:</label>
+                <input type="text" placeholder="=DEGREES(PI())" value="=DEGREES(PI())">
+                <span class="result">Result: 180</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Statistical Functions</h3>
+            <div class="fnlist">
+                <div class="fnitem stat">SUM</div>
+                <div class="fnitem stat">AVERAGE</div>
+                <div class="fnitem stat">MIN</div>
+                <div class="fnitem stat">MAX</div>
+                <div class="fnitem stat">MEDIAN</div>
+                <div class="fnitem stat">STDEV</div>
+                <div class="fnitem stat">COUNT</div>
+                <div class="fnitem stat">VAR</div>
+            </div>
+            <div class="fngroup">
+                <label>Sum:</label>
+                <input type="text" placeholder="=SUM(1,2,3,4,5)" value="=SUM(1,2,3,4,5)">
+                <span class="result">Result: 15</span>
+            </div>
+            <div class="fngroup">
+                <label>Average:</label>
+                <input type="text" placeholder="=AVERAGE(10,20,30)" value="=AVERAGE(10,20,30)">
+                <span class="result">Result: 20</span>
+            </div>
+            <div class="fngroup">
+                <label>Median:</label>
+                <input type="text" placeholder="=MEDIAN(1,2,3,4,5)" value="=MEDIAN(1,2,3,4,5)">
+                <span class="result">Result: 3</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Logical Functions</h3>
+            <div class="fnlist">
+                <div class="fnitem logic">IF</div>
+                <div class="fnitem logic">AND</div>
+                <div class="fnitem logic">OR</div>
+                <div class="fnitem logic">NOT</div>
+                <div class="fnitem logic">ISEVEN</div>
+                <div class="fnitem logic">ISODD</div>
+            </div>
+            <div class="fngroup">
+                <label>IF Statement:</label>
+                <input type="text" placeholder="=IF(5>3, 100, 200)" value="=IF(5>3, 100, 200)">
+                <span class="result">Result: 100</span>
+            </div>
+            <div class="fngroup">
+                <label>Is Even:</label>
+                <input type="text" placeholder="=ISEVEN(10)" value="=ISEVEN(10)">
+                <span class="result">Result: 1</span>
+            </div>
+            <div class="fngroup">
+                <label>Comparison:</label>
+                <input type="text" placeholder="=AND(5>3, 10<20)" value="=AND(5>3, 10<20)">
+                <span class="result">Result: 1</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Financial Functions</h3>
+            <div class="fnlist">
+                <div class="fnitem financial">PMT</div>
+                <div class="fnitem financial">PV</div>
+                <div class="fnitem financial">FV</div>
+            </div>
+            <div class="fngroup">
+                <label>Payment (5% rate, 30 periods, $100k):</label>
+                <input type="text" placeholder="=PMT(0.05/12, 360, 100000)" value="=PMT(0.05/12, 360, 100000)">
+                <span class="result">Monthly Payment</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Random & Constants</h3>
+            <div class="fngroup">
+                <label>Pi:</label>
+                <input type="text" placeholder="=PI()" value="=PI()">
+                <span class="result">Result: 3.14159...</span>
+            </div>
+            <div class="fngroup">
+                <label>Random 1-100:</label>
+                <input type="text" placeholder="=RANDBETWEEN(1,100)" value="=RANDBETWEEN(1,100)">
+                <span class="result">Random Number</span>
+            </div>
+            <div class="fngroup">
+                <label>Euler's number:</label>
+                <input type="text" placeholder="=E()" value="=E()">
+                <span class="result">Result: 2.71828...</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Complex Examples</h3>
+            <div class="fngroup">
+                <label>Quadratic Formula:</label>
+                <input type="text" placeholder="=(-5+SQRT(25-4*1*6))/(2*1)" value="=(-5+SQRT(25-4*1*6))/(2*1)">
+                <span class="result">Root 1</span>
+            </div>
+            <div class="fngroup">
+                <label>Compound Interest:</label>
+                <input type="text" placeholder="=1000*POWER(1+0.05/12,12*5)" value="=1000*POWER(1+0.05/12,12*5)">
+                <span class="result">$1283.36</span>
+            </div>
+            <div class="fngroup">
+                <label>Distance Formula:</label>
+                <input type="text" placeholder="=SQRT(POWER(5-1,2)+POWER(7-3,2))"
+                    value="=SQRT(POWER(5-1,2)+POWER(7-3,2))">
+                <span class="result">Result: 5.66</span>
+            </div>
+        </main>
+    </div>
+
+    <script src="content.js"></script>
+</body>
+
+</html>

@@ -9,7 +9,8 @@
     "clean": "rm -rf dist",
     "type-check": "tsc --noEmit",
     "test": "ts-node test.ts",
-    "test:watch": "ts-node --watch test.ts"
+    "test:watch": "ts-node --watch test.ts",
+    "copytodemo": "tsc src/content.ts --outDir docs --target ES2020 --module ESNext --lib ES2020,DOM --skipLibCheck --allowSyntheticDefaultImports"
   },
   "keywords": [],
   "author": "",
