@@ -1,0 +1,1 @@
+Added more advanced formulas (spreadsheet-like), and debugged that... (and made a page to test these). Also updated extension popup design to match the testing page.

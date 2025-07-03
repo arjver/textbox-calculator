@@ -4,152 +4,136 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Textbox Calculator</title>
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=recia@1,2&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-    }
-    
     body {
-      width: 420px;
-      min-height: 240px;
-      padding: 24px;
-      font-family: 'Crimson Text', serif;
+      font-family: 'Recia', serif;
+      color: darkslateblue;
       margin: 0;
+      padding: 0;
+      width: 600px;
     }
-    
-    .container {
-      border-radius: 16px;
+    main {
+      margin: 16px auto;
+      border-radius: 12px;
       padding: 24px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
-    
     h3 {
-      margin: 0 0 8px 0;
-      font-size: 24px;
-      font-weight: 600;
-      color: #2d3748;
+      color: darkslategray;
+      margin-top: 0;
+      margin-bottom: 20px;
       text-align: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
     }
     
     h4 {
-      margin: 20px 0 16px 0;
-      font-size: 18px;
+      margin: 20px 0 12px 0;
+      font-size: 1.1rem;
       font-weight: 600;
-      color: #4a5568;
-    }
-    
-    .varitem {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 12px;
-      align-items: center;
-    }
-    
-    .varname, .varvalue {
-      flex: 1;
-      padding: 12px 16px;
-      border: 2px solid #e2e8f0;
-      border-radius: 12px;
-      font-family: 'Crimson Text', serif;
-      font-size: 16px;
-      transition: all 0.2s ease;
-    }
-    
-    .varname:focus, .varvalue:focus {
-      outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    }
-    
-    .delvar {
-      background: linear-gradient(135deg, #ff6b6b, #ee5a52);
-      color: white;
-      border: none;
-      padding: 12px 16px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 600;
-      transition: transform 0.2s ease;
-      min-width: 80px;
-    }
-    
-    .delvar:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
-    }
-     
-    #addvar {
-      background: linear-gradient(135deg, #48bb78, #38a169);
-      color: white;
-      border: none;
-      padding: 14px 24px;
-      border-radius: 12px;
-      cursor: pointer;
-      margin-top: 16px;
-      font-family: 'Crimson Text', serif;
-      font-size: 16px;
-      font-weight: 600;
-      width: 100%;
-      transition: transform 0.2s ease;
-    }
-    
-    #addvar:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+      color: mediumslateblue;
+      letter-spacing: 0.5px;
     }
     
     #varscontainer {
       max-height: 200px;
       overflow-y: auto;
       padding-right: 4px;
+      margin-bottom: 16px;
     }
     
-    #varscontainer::-webkit-scrollbar {
-      width: 6px;
+    .varitem {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      align-items: center;
     }
     
-    #varscontainer::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 3px;
+    .varname, .varvalue {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1.5px solid lightsteelblue;
+      border-radius: 6px;
+      font-family: 'Recia', serif;
+      font-size: 14px;
+      transition: border-color 0.18s;
+      background: aliceblue;
+      color: darkslateblue;
     }
     
-    #varscontainer::-webkit-scrollbar-thumb {
-      background: #cbd5e0;
-      border-radius: 3px;
+    .varname:focus, .varvalue:focus {
+      outline: none;
+      border-color: cornflowerblue;
+      background: white;
+    }
+    
+    .delvar {
+      background-color: crimson;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: 'Recia', serif;
+      font-size: 13px;
+      font-weight: 500;
+      transition: background 0.15s;
+      min-width: 60px;
+      text-align: center;
+    }
+    
+    .delvar:hover {
+      background-color: darkred;
+    }
+    
+    #addvar {
+      background-color: mediumslateblue;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 8px;
+      font-family: 'Recia', serif;
+      font-size: 15px;
+      font-weight: 500;
+      width: 100%;
+      transition: background 0.15s;
+    }
+    
+    #addvar:hover {
+      background-color: slateblue;
     }
     
     .info-section {
-      margin-top: 24px;
-      padding: 16px;
-      border-radius: 12px;
-      border-left: 4px solid #667eea;
+      margin-top: 20px;
+      padding: 15px 18px;
+      border-radius: 6px;
+      background: lavender;
+      border-left: 4px solid cornflowerblue;
     }
     
     .info-section p {
       margin: 0 0 8px 0;
       font-size: 14px;
-      color: #4a5568;
+      color: slategray;
       line-height: 1.5;
-    }
-    
-    .info-section p:last-child {
-      margin-bottom: 0;
     }
     
     .info-section code {
       padding: 2px 6px;
       border-radius: 4px;
-      font-family: 'Courier New', monospace;
+      font-family: 'Fira Mono', 'Consolas', monospace;
       font-size: 13px;
-      color: #553c9a;
+      color: indigo;
+      background: lightsteelblue;
+      border: 1px solid steelblue;
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <main>
     <h3>Textbox Calculator
     </h3>
     <h4>Variables</h4>
@@ -158,10 +142,10 @@
     
     <div class="info-section">
       <p>Type math expressions starting with <strong>=</strong> in any text input on web pages. Use variables you define here!</p>
-      <p>Example: <code>=price * tax</code></p>
+      <p>Example: <code>=price * tax + 7.99</code></p>
     </div>
-  </div>
-  
+  </main>
+
   <script src="popup.js"></script>
 </body>
 </html>
