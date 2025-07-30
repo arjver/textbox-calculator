@@ -9,6 +9,10 @@ A browser extension that turns any text input into a spreadsheet-like calculator
 - update multiple calculations at once by changing a variable value in the popup (potentially useful while testing or debugging something, etc.)
 
 ### Installation
+Download and unzip this: https://github.com/arjver/textbox-calculator/raw/refs/heads/main/dist.zip
+Then in your browser go to chrome://extensions, click load unpacked, and select that folder.
+
+### Build
 - clone this repository
 - npm install
 - npm run build
